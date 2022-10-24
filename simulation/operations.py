@@ -4,7 +4,7 @@ def bit_sequence_to_qubit_mps(bit_sequence):
     """
     Convert a Sequence of bits (qubits with 100% probability for 1 or 0) int a mps
     """
-    return list(map(lambda qbit: [[[1-qbit]], [[qbit]]], bit_sequence))
+    return [[[[1-qubit]], [[qubit]]] for qubit in bit_sequence]
 
 
 def perform_one_qubit_gate(qubit, gate):
