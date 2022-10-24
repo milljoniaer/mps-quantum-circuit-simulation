@@ -2,7 +2,7 @@ import numpy as np
 
 class GATES:
     """
-    static class too easily import gates
+    static class to easily import gates
     reference: https://en.wikipedia.org/wiki/Quantum_logic_gate
     """
 
