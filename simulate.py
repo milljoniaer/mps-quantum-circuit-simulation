@@ -1,26 +1,18 @@
 import numpy as np
 from simulation import *
 
-"""
-1. Convert State vector into MPS
+# Generation of Greenberger-Horne-Zeilinger state (GHZ)
+# see: https://en.wikipedia.org/wiki/Greenberger%E2%80%93Horne%E2%80%93Zeilinger_states
 
-2. Apply Gate
-
-3. SVD to approximate state
-
-4. Convert MPS into state vector
-"""
-
+N = 3
 # qubits in "bit" structure
-bit_sequence = [0,0,0,0]
-# X gate
-X = [[0,1], [1,0]]
+bit_sequence = N * [0]
 
 mps = bit_sequence_to_qubit_mps(bit_sequence)
+mps[0] = perform_one_qubit_gate(mps[0], GATES.h)
 
-print(mps)
+mps[0], mps[1] = perform_two_qubit_gate(mps[0], mps[1], GATES.cx)
+mps[1], mps[2] = perform_two_qubit_gate(mps[1], mps[2], GATES.cx)
 
-mps[1] = perform_one_qubit_gate(mps[1], X)
-
-print(mps)
-
+sv = mps_to_state_vector(mps)
+print(sv)
