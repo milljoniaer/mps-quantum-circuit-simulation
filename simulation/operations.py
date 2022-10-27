@@ -48,6 +48,9 @@ def perform_two_qubit_gate(M1, M2, U, chi):
     return M1, M2
 
 def mps_to_state_vector(mps):
+    """
+    converts a given matrix product state into a state-vector
+    """
     sv = mps[0]
     for i in range(1, len(mps)):
         M = np.einsum("hij, kjl -> hkil", sv, mps[i])
@@ -57,4 +60,7 @@ def mps_to_state_vector(mps):
     return np.reshape(sv, (sv.shape[0]))
 
 def log_mps_structure(mps):
+    """
+    logs the shape of each tensor of a given matrix product state
+    """
     print(list(map(lambda node: np.shape(node), mps)))

@@ -7,7 +7,7 @@ Implements the simulation of the circuit used in the paper to explain the algori
 N = Number of qubits; D = Number of 2-qubit gates on each qubit
 """
 
-N = 8
+N = 50
 D = 200
 
 
