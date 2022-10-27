@@ -1,2 +1,2 @@
-from .operations import *
 from .gates import *
+from .circuit import *
