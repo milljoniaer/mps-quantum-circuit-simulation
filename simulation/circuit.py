@@ -5,9 +5,10 @@ class Circuit:
 
     gates = []    
 
-    def __init__(self, bit_sequence):
+    def __init__(self, bit_sequence, chi=4):
         self.n = len(bit_sequence)
         self.mps = bit_sequence_to_qubit_mps(bit_sequence)
+        self.chi = chi
 
     def add_gate(self, gate, i, j=-1):
         if np.shape(gate) == (2,2):
@@ -29,7 +30,7 @@ class Circuit:
             elif gate["type"] == "two":
                 i, j = gate["i"], gate["j"]
                 print(f'Two qubit gate at : ({i},{j}) -> shapes: {np.shape(self.mps[i])}; {np.shape(self.mps[j])}')
-                self.mps[i], self.mps[j] = perform_two_qubit_gate(self.mps[i], self.mps[j], gate["gate"])
+                self.mps[i], self.mps[j] = perform_two_qubit_gate(self.mps[i], self.mps[j], gate["gate"], self.chi)
             else:
                 print("ERROR: Invalid gate detected! Only one and two qubit gates are valid!")
                 sys.exit(1)
