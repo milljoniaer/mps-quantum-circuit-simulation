@@ -24,29 +24,38 @@ def perform_two_qubit_gate(M1, M2, U):
     Currently there is no approximation and hence no orthonomalization
     """
     # TODO Add orthonomalisation to decrease error rate
+    #print(f'IN: M1: {np.shape(M1)}; M2: {np.shape(M2)}')
     T = np.einsum("hij, kjl -> hkil", M1, M2)
     U = np.reshape(U, [2,2,2,2])
     T_tick = np.einsum("hijk, jklm -> hilm", U, T)
+    
 
     n = T_tick.shape[2]
     m = T_tick.shape[3]
     T_tick = np.reshape(T_tick, [2 * n, 2 * m])
+    #print(f'shape: T\': {np.shape(T_tick)}')
 
     # TODO approximate
     X, S, Y = np.linalg.svd(T_tick)
+    #print(f'shapes: X: {np.shape(X)}, S: {np.shape(S)}, Y: {np.shape(Y)}')
     X = X[:, :len(S)] * S
+    Y = Y[:, :len(S)]
     
     M1 = np.reshape(X, [2, n, X.shape[1]])
     M2 = np.reshape(Y, [2, Y.shape[1], m])
 
-    # print(f'OUT: M1: {M1.shape}; M2: {M2.shape}')
+    #print(f'OUT: M1: {M1.shape}; M2: {M2.shape}')
     return M1, M2
 
 def mps_to_state_vector(mps):
     sv = mps[0]
     for i in range(1, len(mps)):
+        # print(f'sv: {sv.shape}; mps[{i}]: {mps[i].shape}')
         M = np.einsum("hij, kjl -> hkil", sv, mps[i])
         M = np.reshape(M, (M.shape[0] * M.shape[1], M.shape[2], M.shape[3]))
         sv = M
 
     return np.reshape(sv, (sv.shape[0]))
+
+def log_mps_structure(mps):
+    print(list(map(lambda node: np.shape(node), mps)))
