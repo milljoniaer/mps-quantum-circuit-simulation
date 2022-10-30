@@ -16,7 +16,7 @@ def perform_one_qubit_gate(M, U):
     M[1][0][0] = sv[1]
     return M
 
-def perform_two_qubit_gate(M1, M2, U, chi):
+def perform_two_qubit_gate(M1, M2, U, chi, truncate):
     """
     Performing a two qubit gate U on the given tensors, those two have to be neightbours
     The algorithm is based on the paper.
@@ -37,8 +37,9 @@ def perform_two_qubit_gate(M1, M2, U, chi):
     #print(f'shape: T\': {np.shape(T_tick)}')
 
     X, S, Y = np.linalg.svd(T_tick)
-    # doing the magic: truncation
-    S = S[:chi]
+    if truncate:
+        # doing the magic: truncation
+        S = S[:chi]
     X = X[:, :len(S)] * S
     Y = Y[:, :len(S)]
     
