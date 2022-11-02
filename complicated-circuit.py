@@ -1,13 +1,12 @@
-import time
-from simulation import *
+from time import time
+from simulation import Circuit, GATES
 
-"""
-Implements the simulation of the circuit used in the paper to explain the algorithm.
+# Implements the simulation of the circuit used in the paper to explain the algorithm.
+#
+# N = Number of qubits; D = Number of 2-qubit gates on each qubit
 
-N = Number of qubits; D = Number of 2-qubit gates on each qubit
-"""
 
-N = 50
+N = 20
 D = 200
 
 
@@ -21,7 +20,7 @@ for d in range(D):
     # adding one qubit gates first
     for n in range(N):
         circuit.add_gate(GATES.h, n)
-    
+
     # adding two qubit gates
     n = d % 2
     while n < N-1:
@@ -29,12 +28,13 @@ for d in range(D):
         n = n + 2
 
 print("Start running the circuit...")
-startTime = time.time()
+startTime = time()
+
 circuit.run()
-endTime = time.time()
+sv = circuit.state_vector()
+
+endTime = time()
 duration = '{:5.3f}s'.format(endTime-startTime)
 print(f'Done in {duration}!')
 
-sv = circuit.state_vector()
 # print(sv)
-

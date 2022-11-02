@@ -1,4 +1,4 @@
-from simulation import *
+from simulation import Circuit, GATES
 
 # Generation of Greenberger-Horne-Zeilinger state (GHZ)
 # see: https://en.wikipedia.org/wiki/Greenberger%E2%80%93Horne%E2%80%93Zeilinger_states
