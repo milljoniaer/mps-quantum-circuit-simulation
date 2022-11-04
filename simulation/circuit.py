@@ -52,8 +52,6 @@ class Circuit:
                 print("ERROR: Invalid gate detected! Only one and two qubit gates are valid!")
                 sys.exit(1)
 
-            # log_mps_structure(self.mps)
-
         self.gates = []
 
     def state_vector(self):

@@ -11,9 +11,7 @@ def perform_one_qubit_gate(M, U):
     """
     Performe one qubit gate on given tensor. 
     """
-    sv = np.matmul(U, [M[0][0][0], M[1][0][0]])
-    M[0][0][0] = sv[0]
-    M[1][0][0] = sv[1]
+    M = np.einsum("hi, ijk -> hjk", U, M)
     return M
 
 def perform_two_qubit_gate(M1, M2, U, chi, truncate):
@@ -34,7 +32,6 @@ def perform_two_qubit_gate(M1, M2, U, chi, truncate):
     n = T_tick.shape[2]
     m = T_tick.shape[3]
     T_tick = np.reshape(T_tick, [2 * n, 2 * m])
-    #print(f'shape: T\': {np.shape(T_tick)}')
 
     X, S, Y = np.linalg.svd(T_tick)
     if truncate:
@@ -59,9 +56,3 @@ def mps_to_state_vector(mps):
         sv = M
 
     return np.reshape(sv, (sv.shape[0]))
-
-def log_mps_structure(mps):
-    """
-    logs the shape of each tensor of a given matrix product state
-    """
-    print(list(map(lambda node: np.shape(node), mps)))
