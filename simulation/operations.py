@@ -2,14 +2,14 @@ import numpy as np
 
 def bit_sequence_to_qubit_mps(bit_sequence):
     """
-    Convert a Sequence of bits (qubits with 100% probability for 1 or 0) int a mps
+    Convert a Sequence of bits int a mps
     """
     return [[[[1-qubit]], [[qubit]]] for qubit in bit_sequence]
 
 
 def perform_one_qubit_gate(M, U):
     """
-    Performe one qubit gate on given tensor. 
+    Performe one qubit gate on given tensor.
     """
     M = np.einsum("hi, ijk -> hjk", U, M)
     return M
@@ -21,13 +21,13 @@ def perform_two_qubit_gate(M1, M2, U, chi, truncate):
 
     Currently there is no orthonomalization to decrease the error rate
 
-    chi is the number of the maximal bond dimension
+    chi is the number of the maximal bond dimension,
+    truncate controls if the MPS should be truncated.
     """
     # TODO Add orthonomalisation to decrease error rate
     T = np.einsum("hij, kjl -> hkil", M1, M2)
     U = np.reshape(U, [2,2,2,2])
     T_tick = np.einsum("hijk, jklm -> hilm", U, T)
-    
 
     n = T_tick.shape[2]
     m = T_tick.shape[3]
@@ -39,7 +39,7 @@ def perform_two_qubit_gate(M1, M2, U, chi, truncate):
         S = S[:chi]
     X = X[:, :len(S)] * S
     Y = Y[:, :len(S)]
-    
+
     M1 = np.reshape(X, [2, n, X.shape[1]])
     M2 = np.reshape(Y, [2, Y.shape[1], m])
 

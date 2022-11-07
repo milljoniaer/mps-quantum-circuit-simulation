@@ -3,13 +3,13 @@ from .operations import *
 
 class Circuit:
 
-    gates = []    
+    gates = []
 
-    def __init__(self, bit_sequence, chi=4, verbose=False, truncate=True):
+    def __init__(self, bit_sequence, chi=64, verbose=False, truncate=True):
         """
         Inits the circuit with a given state as bit_sequence.
 
-        chi represents the maximal bond dimension for the truncation. 
+        chi represents the maximal bond dimension for the truncation.
         """
         self.n = len(bit_sequence)
         self.mps = bit_sequence_to_qubit_mps(bit_sequence)
@@ -26,21 +26,21 @@ class Circuit:
         if np.shape(gate) == (2,2):
             self.gates.append({ "gate": gate, "type": "one", "i": i})
         elif np.shape(gate) == (4,4):
-            if (i + 1 != j):
+            if i + 1 != j:
                 print("Two qubit gates can only be applied to adjacent tensors")
                 sys.exit(1)
             self.gates.append({ "gate": gate, "type": "two", "i": i, "j": j})
         else:
             print("ERROR: Unsupported gate type! Only one and two qubit gates are valid!")
-        
 
     def run(self):
         """
-        Applies the circuit by performing the gates on their qubits in the order they have been provided
+        Applies the circuit.
+        The Gates are applied on their qubits in the order they are in the array
         """
         for gate in self.gates:
             if gate["type"] == "one":
-                if (self.verbose):
+                if self.verbose:
                     print(f'One qubit gate at {gate["i"]}')
                 self.mps[gate["i"]] = perform_one_qubit_gate(self.mps[gate["i"]], gate["gate"])
             elif gate["type"] == "two":
