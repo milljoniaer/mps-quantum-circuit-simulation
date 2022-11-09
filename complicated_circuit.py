@@ -6,14 +6,14 @@ from simulation import Circuit, GATES
 # N = Number of qubits; D = Number of 2-qubit gates on each qubit
 
 
-N = 20
-D = 200
+N = 10
+D = 1000
 
 
 # setting up the circuit with first state
 print("Setting up circuit...")
 bit_sequence = N * [0]
-circuit = Circuit(bit_sequence)
+circuit = Circuit(bit_sequence, chi=30)
 
 print("Adding Gates...")
 for d in range(D):
@@ -37,4 +37,4 @@ endTime = time()
 duration = '{:5.3f}s'.format(endTime-startTime)
 print(f'Done in {duration}!')
 
-# print(sv)
+print(f'Average 2-particle gate fidelity: f_av: {sum(circuit.fidelities) / len(circuit.fidelities)}')

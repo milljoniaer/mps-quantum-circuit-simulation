@@ -1,4 +1,5 @@
 import numpy as np
+import math
 
 def bit_sequence_to_qubit_mps(bit_sequence):
     """
@@ -14,7 +15,7 @@ def perform_one_qubit_gate(M, U):
     M = np.einsum("hi, ijk -> hjk", U, M)
     return M
 
-def perform_two_qubit_gate(M1, M2, U, chi, truncate):
+def perform_two_qubit_gate(M1, M2, U, chi, truncate, fidelities):
     """
     Performing a two qubit gate U on the given tensors, those two have to be neightbours
     The algorithm is based on the paper.
@@ -34,6 +35,7 @@ def perform_two_qubit_gate(M1, M2, U, chi, truncate):
     T_tick = np.reshape(T_tick, [2 * n, 2 * m])
 
     X, S, Y = np.linalg.svd(T_tick)
+    calculate_fidelity(fidelities, S, chi)
     if truncate:
         # doing the magic: truncation
         S = S[:chi]
@@ -56,3 +58,26 @@ def mps_to_state_vector(mps):
         sv = M
 
     return np.reshape(sv, (sv.shape[0]))
+
+def calculate_fidelity(fidelities, S, chi):
+    """
+    calculate fidelity of a 2-qubit gate by the given Singular Values S.
+    the fidelity is added to the given array of fidelities.
+    """
+    
+    approx_sum = 0
+    perfect_sum = 0
+
+    for i in range(len(S)):
+        square = np.square(S[i])
+        if i < chi:
+            approx_sum += square
+        perfect_sum += square
+
+    fidelity = np.sqrt(approx_sum) / np.sqrt(perfect_sum)
+    if math.isnan(fidelity):
+        # happens if the difference is to small, therefore we approximate with 1
+        fidelities.append(1)
+    else:
+        fidelities.append(fidelity)
+

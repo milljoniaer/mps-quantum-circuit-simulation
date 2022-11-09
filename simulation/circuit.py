@@ -4,6 +4,7 @@ from .operations import *
 class Circuit:
 
     gates = []
+    fidelities = []
 
     def __init__(self, bit_sequence, chi=64, verbose=False, truncate=True):
         """
@@ -47,7 +48,7 @@ class Circuit:
                 i, j = gate["i"], gate["j"]
                 if self.verbose:
                     print(f'Two qubit gate at : ({i},{j}) -> shapes: {np.shape(self.mps[i])}; {np.shape(self.mps[j])}')
-                self.mps[i], self.mps[j] = perform_two_qubit_gate(self.mps[i], self.mps[j], gate["gate"], self.chi, self.truncate)
+                self.mps[i], self.mps[j] = perform_two_qubit_gate(self.mps[i], self.mps[j], gate["gate"], self.chi, self.truncate, self.fidelities)
             else:
                 print("ERROR: Invalid gate detected! Only one and two qubit gates are valid!")
                 sys.exit(1)
@@ -59,3 +60,4 @@ class Circuit:
         returns the current state of the network as state vector
         """
         return mps_to_state_vector(self.mps)
+
