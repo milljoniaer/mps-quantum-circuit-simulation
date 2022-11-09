@@ -28,3 +28,9 @@ Format of the circuit:
 ![image](https://user-images.githubusercontent.com/78978542/199468414-7fb34d24-8340-40b8-93d9-3d2d4bfdcb33.png)
 
 1-qubit gate: h-gate; 2-qubit gate: control-not gate
+
+## Results
+
+Have a look at the `/results` subfolder to view some analytics. The scripts to generate these plots are located in the root folder. 
+
+To run these scripts you need to install [Matploblib](https://matplotlib.org/stable/index.html).
