@@ -1,37 +1,37 @@
 import matplotlib.pyplot as plt
 from run_example_circuit import run
 
-chi = 20
-step_size = 50
+chi = 512
+step_size = 100
 
 plot_filename = "increasing-depth-n.png"
 
 depths = []
-fidelities_n_5 = []
-fidelities_n_10 = []
-fidelities_n_15 = []
-
-N = 5
-for d in range(100, 1000, step_size):
-    depths.append(d)
-    f_av, duration_int = run(N, d, chi)
-    fidelities_n_5.append(f_av)
+fidelities_n_1 = []
+fidelities_n_2 = []
+fidelities_n_3 = []
 
 N = 10
 for d in range(100, 1000, step_size):
+    depths.append(d)
     f_av, duration_int = run(N, d, chi)
-    fidelities_n_10.append(f_av)
+    fidelities_n_1.append(f_av)
 
-N = 15
+N = 30
 for d in range(100, 1000, step_size):
     f_av, duration_int = run(N, d, chi)
-    fidelities_n_15.append(f_av)
+    fidelities_n_2.append(f_av)
+
+N = 60
+for d in range(100, 1000, step_size):
+    f_av, duration_int = run(N, d, chi)
+    fidelities_n_3.append(f_av)
 
 print("Building Plot...")
 fig, ax = plt.subplots()
-ax.scatter(depths, fidelities_n_5, c="blue")
-ax.scatter(depths, fidelities_n_10, c="red")
-ax.scatter(depths, fidelities_n_15, c="green")
+ax.scatter(depths, fidelities_n_1, c="blue")
+ax.scatter(depths, fidelities_n_2, c="red")
+ax.scatter(depths, fidelities_n_3, c="green")
 ax.legend()
 ax.set_xlabel("D")
 ax.set_ylabel("f_av")
