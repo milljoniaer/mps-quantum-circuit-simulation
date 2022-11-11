@@ -76,7 +76,11 @@ def calculate_fidelity(fidelities, S, chi):
 
     fidelity = np.sqrt(approx_sum) / np.sqrt(perfect_sum)
     if math.isnan(fidelity):
-        # happens if the difference is to small, therefore we approximate with 1
+        # sometime the fidelity gets "nan", this is probably the case when small values due to the square and sqrt functions are rounded up to 0
+        # hence we get a "divided by 0 -> nan"
+        # I tried to leave those values out of the calculation of the average fidelity, but that turns out to return in a weird shaped curve
+        # I got better results (well-shaped curve) when approximating this one 2-qubit gate fidelity with "1"
+        # since this happens only with small values the error, which is added here, should not be large and occurs only in this specific gate.
         fidelities.append(1)
     else:
         fidelities.append(fidelity)

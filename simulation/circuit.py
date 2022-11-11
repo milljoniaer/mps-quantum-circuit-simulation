@@ -1,4 +1,5 @@
 import sys
+from tqdm import tqdm
 from .operations import *
 
 class Circuit:
@@ -39,7 +40,7 @@ class Circuit:
         Applies the circuit.
         The Gates are applied on their qubits in the order they are in the array
         """
-        for gate in self.gates:
+        for gate in tqdm(self.gates):
             if gate["type"] == "one":
                 if self.verbose:
                     print(f'One qubit gate at {gate["i"]}')

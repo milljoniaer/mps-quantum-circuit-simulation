@@ -2,7 +2,17 @@
 This Repository contains quantum circuit simutlation using a Matrix-Product-State representation of the quantum state. It is an approximation algorithm to scale linear with the number of qubits and the depth of the circuit. It has been written for the Quantum Computing Seminar at the Technical University of Munich. The simulator is based on a paper about the ["Limits of the simulation of quantum computers on classical computers"](https://journals.aps.org/prx/abstract/10.1103/PhysRevX.10.041038).
 
 ## Installation
-To install the dependencys of this project run `pip3 install numpy`. This project relies on the algebraic operations of numpy.
+To use this simulation package you need to install some dependencies.
+
+Run the following code to install them:
+
+```
+pip3 install numpy # needed for the tensor operations
+pip3 install tqdm  # displays a progress bar during running the circuit
+
+# optional for recalculating the results (plotting)
+# pip3 install matplotlib 
+```
 
 ## Examples
 
